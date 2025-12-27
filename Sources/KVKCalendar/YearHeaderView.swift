@@ -56,7 +56,8 @@ extension YearHeaderView: CalendarSettingProtocol {
     }
     
     func setUI(reload: Bool = false) {
-        titleLabel.frame = CGRect(x: 20, y: 0, width: frame.width - 10, height: frame.height)
+        // Align with month cells below (3px padding matches YearCell titleLabel x position)
+        titleLabel.frame = CGRect(x: 3, y: 0, width: frame.width - 6, height: frame.height)
         addSubview(titleLabel)
     }
     

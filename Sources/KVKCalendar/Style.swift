@@ -765,13 +765,15 @@ extension Style {
         newStyle.year.colorBackgroundSelectDate = UIColor.useForStyle(dark: .systemGray,
                                                                       white: newStyle.year.colorBackgroundSelectDate)
         newStyle.year.colorSelectDate = UIColor.useForStyle(dark: .white, white: newStyle.year.colorSelectDate)
-        newStyle.year.colorWeekendDate = UIColor.useForStyle(dark: .systemGray2, white: newStyle.year.colorWeekendDate)
+        // Apple Calendar style: all days white in year view (weekends same as weekdays)
+        newStyle.year.colorWeekendDate = UIColor.useForStyle(dark: .white, white: newStyle.year.colorWeekendDate)
         newStyle.year.colorBackgroundWeekendDate = UIColor.useForStyle(dark: .clear,
                                                                        white: newStyle.year.colorBackgroundWeekendDate)
         newStyle.year.colorTitle = UIColor.useForStyle(dark: .white, white: newStyle.year.colorTitle)
         newStyle.year.colorBackgroundHeader = UIColor.useForStyle(dark: .black, white: newStyle.year.colorBackgroundHeader)
         newStyle.year.colorTitleHeader = UIColor.useForStyle(dark: .white, white: newStyle.year.colorTitleHeader)
-        newStyle.year.colorDayTitle = UIColor.useForStyle(dark: .systemGray, white: newStyle.year.colorDayTitle)
+        // Apple Calendar style: all day numbers white in year view
+        newStyle.year.colorDayTitle = UIColor.useForStyle(dark: .white, white: newStyle.year.colorDayTitle)
         newStyle.year.colorBackground = UIColor.useForStyle(dark: .black, white: newStyle.year.colorBackground)
         
         // all day
