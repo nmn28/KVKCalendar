@@ -23,9 +23,9 @@ final class YearCell: UICollectionViewCell {
     private var topHeight: CGFloat {
         switch Platform.currentInterface {
         case .phone:
-            return 22  // Increased for larger month titles
+            return 26  // For larger month titles (26pt)
         default:
-            return 35
+            return 40
         }
     }
     

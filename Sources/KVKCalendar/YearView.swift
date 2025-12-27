@@ -145,10 +145,11 @@ extension YearView: CalendarSettingProtocol {
             
             if !result.customView {
                 viewTemp.translatesAutoresizingMaskIntoConstraints = false
+                let horizontalPadding: CGFloat = Platform.currentInterface == .phone ? 10 : 20
                 let top = viewTemp.topAnchor.constraint(equalTo: topAnchor)
                 let bottom = viewTemp.bottomAnchor.constraint(equalTo: bottomAnchor)
-                let left = viewTemp.leftAnchor.constraint(equalTo: leftAnchor)
-                let right = viewTemp.rightAnchor.constraint(equalTo: rightAnchor)
+                let left = viewTemp.leftAnchor.constraint(equalTo: leftAnchor, constant: horizontalPadding)
+                let right = viewTemp.rightAnchor.constraint(equalTo: rightAnchor, constant: -horizontalPadding)
                 NSLayoutConstraint.activate([top, bottom, left, right])
             }
         }
@@ -218,9 +219,9 @@ extension YearView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
         let attributes = collectionView.layoutAttributesForItem(at: indexPath)
         let frame = collectionView.convert(attributes?.frame ?? .zero, to: collectionView)
         
-        // Call delegate first, then reload - removed duplicate reloadData() calls
+        // Call delegate - the delegate will handle switching to month view
+        // Don't reload here as it interferes with the view transition
         delegate?.didSelectDates([newDate].compactMap({ $0 }), type: data.style.year.selectCalendarType, frame: frame)
-        collectionView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
