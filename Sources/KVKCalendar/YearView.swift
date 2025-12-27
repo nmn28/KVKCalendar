@@ -62,12 +62,12 @@ final class YearView: UIView {
     }
     
     private func scrollToDate(date: Date, animated: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            if let idx = self.data.sections.firstIndex(where: { $0.date.kvkYear == date.kvkYear }) {
-                self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: idx),
-                                                  at: self.scrollDirection(month: date.kvkMonth),
-                                                  animated: animated)
-            }
+        // Force layout and scroll immediately to avoid showing wrong year briefly
+        collectionView?.layoutIfNeeded()
+        if let idx = self.data.sections.firstIndex(where: { $0.date.kvkYear == date.kvkYear }) {
+            self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: idx),
+                                              at: self.scrollDirection(month: date.kvkMonth),
+                                              animated: animated)
         }
     }
     
@@ -103,12 +103,13 @@ extension YearView: CalendarSettingProtocol {
     func reloadFrame(_ frame: CGRect) {
         self.frame = frame
         layoutIfNeeded()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            if let idx = self.data.sections.firstIndex(where: { $0.date.kvkYear == self.data.date.kvkYear }) {
-                self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: idx),
-                                                  at: self.scrollDirection(month: self.data.date.kvkMonth),
-                                                  animated: false)
-            }
+        collectionView?.layoutIfNeeded()
+        
+        // Scroll immediately without delay to avoid showing wrong year briefly
+        if let idx = self.data.sections.firstIndex(where: { $0.date.kvkYear == self.data.date.kvkYear }) {
+            self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: idx),
+                                              at: self.scrollDirection(month: self.data.date.kvkMonth),
+                                              animated: false)
         }
         
         collectionView?.reloadData()
@@ -213,11 +214,11 @@ extension YearView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
         formatter.dateFormat = "dd.MM.yyyy"
         let newDate = formatter.date(from: "\(data.date.kvkDay).\(date.kvkMonth).\(date.kvkYear)")
         data.date = newDate ?? Date()
-        collectionView.reloadData()
         
         let attributes = collectionView.layoutAttributesForItem(at: indexPath)
         let frame = collectionView.convert(attributes?.frame ?? .zero, to: collectionView)
         
+        // Call delegate first, then reload - removed duplicate reloadData() calls
         delegate?.didSelectDates([newDate].compactMap({ $0 }), type: data.style.year.selectCalendarType, frame: frame)
         collectionView.reloadData()
     }

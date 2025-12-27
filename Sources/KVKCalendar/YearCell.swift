@@ -23,9 +23,9 @@ final class YearCell: UICollectionViewCell {
     private var topHeight: CGFloat {
         switch Platform.currentInterface {
         case .phone:
-            return 15
+            return 22  // Increased for larger month titles
         default:
-            return 30
+            return 35
         }
     }
     
@@ -102,8 +102,8 @@ final class YearCell: UICollectionViewCell {
     private func addDayToLabel(days: ArraySlice<Day>, step: Int) {
         let width = frame.width / CGFloat(daysInWeek)
         // Adjusted Y to start closer to title since weekday header is removed
-        let newY: CGFloat = topHeight + 5
-        let height: CGFloat = (frame.height - newY) / CGFloat(daysInWeek - 1)
+        let newY: CGFloat = topHeight + 2  // Reduced gap between title and days
+        let height: CGFloat = (frame.height - newY) / CGFloat(daysInWeek - 1) * 0.92  // Slightly more compact
         
         for (idx, day) in days.enumerated() where day.type != .empty {
             let frame = CGRect(x: width * CGFloat(idx),

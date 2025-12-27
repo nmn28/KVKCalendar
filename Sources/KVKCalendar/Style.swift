@@ -765,15 +765,15 @@ extension Style {
         newStyle.year.colorBackgroundSelectDate = UIColor.useForStyle(dark: .systemGray,
                                                                       white: newStyle.year.colorBackgroundSelectDate)
         newStyle.year.colorSelectDate = UIColor.useForStyle(dark: .white, white: newStyle.year.colorSelectDate)
-        // Apple Calendar style: all days white in year view (weekends same as weekdays)
-        newStyle.year.colorWeekendDate = UIColor.useForStyle(dark: .white, white: newStyle.year.colorWeekendDate)
+        // Apple Calendar style: all days same color (weekends same as weekdays) - use .label for light/dark support
+        newStyle.year.colorWeekendDate = UIColor.useForStyle(dark: .label, white: .label)
         newStyle.year.colorBackgroundWeekendDate = UIColor.useForStyle(dark: .clear,
                                                                        white: newStyle.year.colorBackgroundWeekendDate)
-        newStyle.year.colorTitle = UIColor.useForStyle(dark: .white, white: newStyle.year.colorTitle)
-        newStyle.year.colorBackgroundHeader = UIColor.useForStyle(dark: .black, white: newStyle.year.colorBackgroundHeader)
-        newStyle.year.colorTitleHeader = UIColor.useForStyle(dark: .white, white: newStyle.year.colorTitleHeader)
-        // Apple Calendar style: all day numbers white in year view
-        newStyle.year.colorDayTitle = UIColor.useForStyle(dark: .white, white: newStyle.year.colorDayTitle)
+        newStyle.year.colorTitle = UIColor.useForStyle(dark: .label, white: .label)
+        newStyle.year.colorBackgroundHeader = UIColor.useForStyle(dark: .systemBackground, white: .systemBackground)
+        newStyle.year.colorTitleHeader = UIColor.useForStyle(dark: .label, white: .label)
+        // Apple Calendar style: all day numbers same color - use .label for light/dark support
+        newStyle.year.colorDayTitle = UIColor.useForStyle(dark: .label, white: .label)
         newStyle.year.colorBackground = UIColor.useForStyle(dark: .black, white: newStyle.year.colorBackground)
         
         // all day
