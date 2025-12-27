@@ -17,6 +17,12 @@ final class YearHeaderView: UICollectionReusableView {
         return label
     }()
     
+    private let dividerLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .separator
+        return view
+    }()
+    
     var date: Date? {
         didSet {
             guard let date = date else { return }
@@ -57,13 +63,19 @@ extension YearHeaderView: CalendarSettingProtocol {
     
     func setUI(reload: Bool = false) {
         // Align with month cells below (3px padding matches YearCell titleLabel x position)
-        titleLabel.frame = CGRect(x: 3, y: 0, width: frame.width - 6, height: frame.height)
+        titleLabel.frame = CGRect(x: 3, y: 0, width: frame.width - 6, height: frame.height - 12)
         addSubview(titleLabel)
+        
+        // Add divider line right below the year title (like iOS Calendar year view)
+        // Positioned just below the title text, not at the very bottom of the header
+        dividerLine.frame = CGRect(x: 3, y: frame.height - 10, width: frame.width - 6, height: 1)
+        addSubview(dividerLine)
     }
     
     func reloadFrame(_ frame: CGRect) {
         self.frame.size.width = frame.width
-        titleLabel.frame.size.width = frame.width
+        titleLabel.frame.size.width = frame.width - 6
+        dividerLine.frame = CGRect(x: 3, y: frame.height - 10, width: frame.width - 6, height: 1)
     }
     
     func updateStyle(_ style: Style, force: Bool) {
