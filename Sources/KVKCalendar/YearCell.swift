@@ -48,11 +48,9 @@ final class YearCell: UICollectionViewCell {
             titleLabel.font = style.year.fontTitle
             titleLabel.textColor = style.year.colorTitle
             
+            // Remove weekday header row in year view to match Apple Calendar
             subviews.filter({ $0 is WeekHeaderView }).forEach({ $0.removeFromSuperview() })
-            let view = WeekHeaderView(parameters: .init(style: style, isFromYear: true),
-                                      frame: CGRect(x: 0, y: topHeight + 5,
-                                                    width: frame.width, height: topHeight))
-            addSubview(view)
+            // WeekHeaderView removed - Apple Calendar doesn't show weekday names in year view
         }
     }
     
@@ -103,7 +101,8 @@ final class YearCell: UICollectionViewCell {
     
     private func addDayToLabel(days: ArraySlice<Day>, step: Int) {
         let width = frame.width / CGFloat(daysInWeek)
-        let newY: CGFloat = (topHeight * 2) + 10
+        // Adjusted Y to start closer to title since weekday header is removed
+        let newY: CGFloat = topHeight + 5
         let height: CGFloat = (frame.height - newY) / CGFloat(daysInWeek - 1)
         
         for (idx, day) in days.enumerated() where day.type != .empty {

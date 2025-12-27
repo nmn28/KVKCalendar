@@ -73,7 +73,8 @@ struct CalendarData {
         
         let formatter = DateFormatter()
         formatter.locale = style.locale
-        let nameMonths = (formatter.standaloneMonthSymbols ?? [""]).map({ $0.capitalized })
+        // Use short month names for year view (Jan, Feb, Mar) instead of full names
+        let nameMonths = (formatter.shortStandaloneMonthSymbols ?? [""]).map({ $0.capitalized })
         
         let calendar = style.calendar
         var monthsTemp = [Month]()
