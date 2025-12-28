@@ -15,7 +15,7 @@ public class TimelineLabel: UILabel {
     
     var time: TimeContainer = TimeContainer(minute: 0, hour: 0) {
         didSet {
-            guard 1..<60 ~= time.minute else {
+            guard 0..<60 ~= time.minute else {
                 text = nil
                 return
             }
@@ -23,7 +23,7 @@ public class TimelineLabel: UILabel {
             if oldValue.minute != time.minute {
                 UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             }
-            text = ":\(time.minute)"
+            text = String(format: ":%02d", time.minute)
         }
     }
     

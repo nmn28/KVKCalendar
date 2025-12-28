@@ -60,7 +60,7 @@ open class ListView: UIView, CalendarSettingProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupConstraints() {
+    public func setupConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let top = tableView.topAnchor.constraint(equalTo: topAnchor)
@@ -75,7 +75,7 @@ open class ListView: UIView, CalendarSettingProtocol {
         setUI(reload: force)
     }
     
-    func setUI(reload: Bool = false) {
+    public func setUI(reload: Bool = false) {
         backgroundColor = listStyle.backgroundColor
         tableView.backgroundColor = listStyle.backgroundColor
     }
@@ -85,7 +85,7 @@ open class ListView: UIView, CalendarSettingProtocol {
         layoutIfNeeded()
     }
     
-    func reloadData(_ events: [Event]) {
+    public func reloadData(_ events: [Event]) {
         params.data.reloadEvents(events)
         dataSource?.willDisplaySectionsInListView(params.data.sections)
         tableView.reloadData()
@@ -133,9 +133,23 @@ extension ListView: UITableViewDataSource, UITableViewDelegate {
         if let cell = dataSource?.dequeueCell(parameter: .init(date: event.start, events: [event]), type: .list, view: tableView, indexPath: indexPath) as? UITableViewCell {
             return cell
         } else {
-            return tableView.kvkDequeueCell(indexPath: indexPath) { (cell: ListViewCell) in
+            return tableView.kvkDequeueCell(indexPath: indexPath) { [weak self] (cell: ListViewCell) in
                 cell.txt = event.title.list
                 cell.dotColor = event.color?.value
+                
+                // Format time for display
+                if event.isAllDay {
+                    cell.timeText = "all-day"
+                } else {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = self?.params.style.timeSystem == .twelve ? "h:mma" : "HH:mm"
+                    cell.timeText = formatter.string(from: event.start).lowercased()
+                }
+                
+                // Get SF symbol from CalendarItem stored in event.data
+                if let sfSymbolProvider = event.data as? SFSymbolProvider {
+                    cell.sfSymbol = sfSymbolProvider.sfSymbolName
+                }
             }
         }
     }

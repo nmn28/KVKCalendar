@@ -10,6 +10,14 @@
 import UIKit
 import EventKit
 
+// MARK: - SF Symbol Provider Protocol
+
+/// Protocol for providing SF Symbol names to list view cells
+/// Implement this protocol on your custom event data type to show SF Symbols instead of dots
+public protocol SFSymbolProvider {
+    var sfSymbolName: String { get }
+}
+
 @available(swift, deprecated: 0.6.5, obsoleted: 0.6.6, renamed: "CellParameter")
 public struct DateParameter {
     public var date: Date?
